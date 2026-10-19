@@ -18,23 +18,24 @@
             font-family: 'Exo 2', sans-serif;
             overflow-x: hidden;
         }
-        /* O visualizador 3D fica fixo à direita com fluidez total */
+        /* O visualizador 3D fica fixo à direita ocupando metade da tela com transição fluida */
         model-viewer {
             position: fixed;
             top: 0;
             right: 0;
-            width: 52vw;
+            width: 50vw;
             height: 100vh;
             --poster-color: transparent;
             z-index: 10;
             pointer-events: auto;
-            transition: camera-orbit 0.9s cubic-bezier(0.25, 1, 0.5, 1), field-of-view 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: camera-orbit 0.8s cubic-bezier(0.25, 1, 0.5, 1), field-of-view 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
+        /* Painéis maiores, imponentes e com forte presença visual */
         .hud-panel {
-            background-color: rgba(6, 9, 17, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(110, 231, 245, 0.35);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.95);
+            background-color: rgba(6, 9, 17, 0.92);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(110, 231, 245, 0.4);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95);
         }
         .text-cyan-gradient {
             background: linear-gradient(180deg, #ffffff 0%, #6ee7f5 70%, #22d3ee 100%);
@@ -52,15 +53,15 @@
             box-shadow: 0 12px 40px 5px rgba(34, 211, 238, 0.7);
         }
         .badge-glow {
-            box-shadow: 0 0 10px 1px rgba(34, 211, 238, 0.2);
+            box-shadow: 0 0 12px 2px rgba(34, 211, 238, 0.3);
         }
         
-        /* Cada secção de texto ocupa um ecrã inteiro. O efeito visual de transparência e dissolução será calculado via JS para extrema suavidade */
+        /* Comportamento de Roleta: transições suaves baseadas em posição vertical */
         .scroll-section {
             height: 100vh;
             display: flex;
             align-items: center;
-            padding-left: 6vw;
+            padding-left: 5vw;
             position: relative;
             z-index: 20;
             will-change: transform, opacity, filter;
@@ -69,7 +70,7 @@
 </head>
 <body>
 
-    <!-- VISUALIZADOR 3D FIXO À DIREITA COM ZOOM DINÂMICO -->
+    <!-- VISUALIZADOR 3D FIXO À DIREITA -->
     <model-viewer
         id="trava-viewer"
         src="trava-patinete3d.glb"
@@ -87,62 +88,62 @@
     </model-viewer>
 
 
-    <!-- CONTEÚDO DE ROLAGEM (SECÇÕES DE TEXTO COM DISSOLUÇÃO EM TEMPO REAL) -->
+    <!-- CONTEÚDO DE ROLAGEM / ROLETA DE TEXTOS -->
     <div class="relative w-full pb-40">
 
         <!-- SECÇÃO 1: VISÃO GERAL -->
         <section class="scroll-section" data-orbit="45deg 75deg 105%" data-fov="32deg" data-time="0">
-            <div class="w-full max-w-lg hud-panel p-8 rounded-3xl">
-                <div class="flex items-center gap-2.5 mb-4">
-                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/30">PASSO 01</span>
-                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-emerald-950 text-emerald-400 text-xs font-bold tracking-widest uppercase border border-emerald-500/30">PRINTEC 3D</span>
+            <div class="w-full max-w-xl hud-panel p-10 rounded-3xl">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/40">PASSO 01</span>
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-emerald-950 text-emerald-400 text-xs font-bold tracking-widest uppercase border border-emerald-500/40">PRINTEC 3D</span>
                 </div>
-                <h1 class="font-extrabold text-3xl sm:text-4xl uppercase tracking-tighter leading-none mb-3">
+                <h1 class="font-extrabold text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4">
                     DESIGN SOB <br>
                     <span class="text-cyan-gradient">MEDIDA</span>
                 </h1>
-                <p class="text-neutral-400 text-sm leading-relaxed mb-6">
-                    Desenvolvido por engenharia reversa diretamente sobre a peça original danificada, garantindo tolerâncias milimétricas de encaixe para o teu patinete.
+                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-8">
+                    Desenvolvido por engenharia reversa diretamente sobre a peça original danificada, garantindo tolerâncias milimétricas de encaixe perfeito para o teu patinete.
                 </p>
                 <div class="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase animate-bounce">
-                    <span>↓ Rola para baixo para activar o zoom cinematográfico</span>
+                    <span>↓ Rola para girar a roleta técnica</span>
                 </div>
             </div>
         </section>
 
-        <!-- SECÇÃO 2: ZOOM DINÂMICO NO MECANISMO -->
+        <!-- SECÇÃO 2: ZOOM TÉCNICO NO MECANISMO -->
         <section class="scroll-section" data-orbit="135deg 55deg 65%" data-fov="20deg" data-time="1.0">
-            <div class="w-full max-w-lg hud-panel p-8 rounded-3xl">
-                <div class="flex items-center gap-2.5 mb-4">
-                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/30">PASSO 02</span>
-                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-blue-950 text-blue-400 text-xs font-bold tracking-widest uppercase border border-blue-500/30">ZOOM TÉCNICO</span>
+            <div class="w-full max-w-xl hud-panel p-10 rounded-3xl">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/40">PASSO 02</span>
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-blue-950 text-blue-400 text-xs font-bold tracking-widest uppercase border border-blue-500/40">ZOOM TÉCNICO</span>
                 </div>
-                <h2 class="font-extrabold text-3xl sm:text-4xl uppercase tracking-tighter leading-none mb-3">
+                <h2 class="font-extrabold text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4">
                     TRAVAMENTO <br>
                     <span class="text-cyan-gradient">REFORÇADO</span>
                 </h2>
-                <p class="text-neutral-400 text-sm leading-relaxed mb-6">
-                    Repara nos detalhes: o sistema de alavanca foi reprojetado com paredes mais espessas nos pontos críticos de tensão, eliminando o problema de quebra da original.
+                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-8">
+                    Repara nos detalhes: o sistema de alavanca foi reprojetado com paredes mais espessas nos pontos críticos de tensão, eliminando definitivamente o problema crónico de quebra da original.
                 </p>
             </div>
         </section>
 
         <!-- SECÇÃO 3: ALTA PERFORMANCE E COMPRA -->
         <section class="scroll-section" data-orbit="0deg 85deg 110%" data-fov="32deg" data-time="2.0">
-            <div class="w-full max-w-lg hud-panel p-8 rounded-3xl">
-                <div class="flex items-center gap-2.5 mb-4">
-                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/30">PASSO 03</span>
-                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-amber-950 text-amber-400 text-xs font-bold tracking-widest uppercase border border-amber-500/30">ALTA PERFORMANCE</span>
+            <div class="w-full max-w-xl hud-panel p-10 rounded-3xl">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/40">PASSO 03</span>
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-amber-950 text-amber-400 text-xs font-bold tracking-widest uppercase border border-amber-500/40">ALTA PERFORMANCE</span>
                 </div>
-                <h2 class="font-extrabold text-3xl sm:text-4xl uppercase tracking-tighter leading-none mb-3">
+                <h2 class="font-extrabold text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4">
                     PRONTO PARA <br>
                     <span class="text-cyan-gradient">INSTALAR</span>
                 </h2>
-                <p class="text-neutral-400 text-sm leading-relaxed mb-6">
-                    Impresso com polímeros técnicos de alta densidade mecânica resistentes a UV e vibração intensa. Substituição rápida e definitiva.
+                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-8">
+                    Impresso com polímeros técnicos de alta densidade mecânica resistentes a UV e vibração intensa. Substituição rápida, fiável e definitiva.
                 </p>
                 <div>
-                    <a href="#comprar" class="btn-neon-cyan inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-extrabold text-xs tracking-widest uppercase shadow-lg">
+                    <a href="#comprar" class="btn-neon-cyan inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-extrabold text-xs tracking-widest uppercase shadow-lg">
                         ADQUIRIR AGORA
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -155,12 +156,12 @@
     </div>
 
 
-    <!-- SCRIPT DE DISSOLUÇÃO SUAVE E SINCRONIZAÇÃO 3D -->
+    <!-- SCRIPT DA ROLETA DE TEXTOS E DINÂMICA 3D -->
     <script>
         const viewer = document.getElementById('trava-viewer');
         const sections = document.querySelectorAll('.scroll-section');
 
-        function updateScrollEffects() {
+        function updateRouletteScroll() {
             let windowHeight = window.innerHeight;
             let centerScreen = windowHeight / 2;
 
@@ -168,25 +169,23 @@
                 let rect = section.getBoundingClientRect();
                 let sectionCenter = rect.top + rect.height / 2;
                 
-                // Distância do centro da secção em relação ao centro da tela
                 let distanceToCenter = sectionCenter - centerScreen;
                 let absDistance = Math.abs(distanceToCenter);
 
-                // Cálculo dinâmico da opacidade (quanto mais longe do centro, mais transparente fica até sumir)
-                // O efeito de fade começa a dissolver a 0.7 de distância da tela
-                let progress = 1 - (absDistance / (windowHeight * 0.75));
-                let opacity = Math.max(0, Math.min(1, progress));
+                // Efeito de Roleta: apenas o bloco no centro da tela fica com opacidade máxima (1.0)
+                let progress = 1 - (absDistance / (windowHeight * 0.55));
+                let opacity = Math.max(0.05, Math.min(1, progress));
 
-                // Efeito visual 3D de profundidade (escala e desfoque leve ao afastar)
+                // Escala e desfoque imersivo (efeito de profundidade da roleta)
                 let scale = 0.85 + (opacity * 0.15);
-                let blur = (1 - opacity) * 12; // Desfoca à medida que desaparece
+                let blur = (1 - opacity) * 10;
 
                 section.style.opacity = opacity;
-                section.style.transform = `scale(${scale}) translateY(${distanceToCenter * 0.15}px)`;
+                section.style.transform = `scale(${scale}) translateY(${distanceToCenter * 0.1}px)`;
                 section.style.filter = `blur(${blur}px)`;
 
-                // Quando a secção atinge o centro da tela, aciona o passo 3D correspondente
-                if (absDistance < windowHeight * 0.35) {
+                // Sincroniza a câmara e animação quando a secção atinge o foco central
+                if (absDistance < windowHeight * 0.3) {
                     let targetOrbit = section.getAttribute('data-orbit');
                     let targetFov = section.getAttribute('data-fov');
                     let targetTime = parseFloat(section.getAttribute('data-time'));
@@ -205,11 +204,9 @@
             });
         }
 
-        window.addEventListener('scroll', updateScrollEffects);
-        window.addEventListener('resize', updateScrollEffects);
-        
-        // Executa uma vez no início para alinhar
-        updateScrollEffects();
+        window.addEventListener('scroll', updateRouletteScroll);
+        window.addEventListener('resize', updateRouletteScroll);
+        updateRouletteScroll();
     </script>
 
 </body>
