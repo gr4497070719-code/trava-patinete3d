@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
     <style>
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #090d16; color: #ffffff;
+            background-color: #0b0f19; color: #ffffff;
             font-family: system-ui, -apple-system, sans-serif; overflow: hidden;
         }
         model-viewer { width: 100%; height: 100vh; --poster-color: transparent; }
@@ -26,15 +26,38 @@
         rotation-per-second="20deg"
         camera-controls
         interaction-prompt="none"
-        shadow-intensity="1.5"
-        exposure="1.0"
+        shadow-intensity="2.5"
+        exposure="0.5"
         environment-image="neutral"
         ar>
         
-        <div class="absolute top-6 left-6 max-w-sm bg-slate-900/85 backdrop-blur-md p-5 rounded-2xl border border-cyan-500/30 text-cyan-400">
-            <span class="px-2 py-1 rounded bg-cyan-950 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase">Peça Técnica em 3D</span>
-            <h1 class="text-xl font-black mt-2 text-white">Trava de Segurança para Patinete</h1>
-            <p class="text-xs text-slate-300 mt-1 leading-relaxed">Substituição sob medida com alta resistência mecânica.</p>
+        <!-- Caixa de Texto Estilizada Estilo Apple / High-End -->
+        <div class="absolute top-8 left-8 max-w-md bg-slate-950/75 backdrop-blur-xl p-6 rounded-3xl border border-white/10 shadow-2xl shadow-cyan-950/50">
+            <!-- Etiqueta superior -->
+            <div class="flex items-center gap-2 mb-3">
+                <span class="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold tracking-wider uppercase">PRINTEC 3D</span>
+                <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-wider uppercase">Exclusivo</span>
+            </div>
+
+            <!-- Título Principal -->
+            <h1 class="text-2xl font-bold tracking-tight text-white mb-2">Trava de Segurança para Patinete</h1>
+            
+            <!-- Descrição -->
+            <p class="text-sm text-slate-300 leading-relaxed mb-5">
+                Substituição sob medida projetada em CAD com engenharia reversa. Oferece alta resistência mecânica e durabilidade superior à peça original.
+            </p>
+
+            <!-- Mini Destaques / Benefícios -->
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-white/10 text-xs text-slate-400 font-medium">
+                <div class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Encaixe Perfeito
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Alta Resistência
+                </div>
+            </div>
         </div>
     </model-viewer>
 </body>
