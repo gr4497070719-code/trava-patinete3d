@@ -18,22 +18,23 @@
             font-family: 'Exo 2', sans-serif;
             overflow-x: hidden;
         }
-        /* O model-viewer fica fixo no lado direito, mas permitindo o clique e scroll */
+        /* O model-viewer fica fixo à direita com transição suave de câmara */
         model-viewer {
             position: fixed;
             top: 0;
             right: 0;
-            width: 50vw;
+            width: 52vw;
             height: 100vh;
             --poster-color: transparent;
             z-index: 10;
             pointer-events: auto;
+            transition: camera-orbit 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .hud-panel {
-            background-color: rgba(6, 9, 17, 0.85);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(110, 231, 245, 0.25);
-            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.9);
+            background-color: rgba(6, 9, 17, 0.88);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(110, 231, 245, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.95);
         }
         .text-cyan-gradient {
             background: linear-gradient(180deg, #ffffff 0%, #6ee7f5 70%, #22d3ee 100%);
@@ -53,7 +54,7 @@
         .badge-glow {
             box-shadow: 0 0 10px 1px rgba(34, 211, 238, 0.2);
         }
-        /* Cada passo de texto ocupa uma tela inteira e ativa com a rolagem */
+        /* Efeito profissional de surgimento e sumiço (Fade Out / Fade In) nas janelas de texto */
         .scroll-section {
             height: 100vh;
             display: flex;
@@ -61,19 +62,21 @@
             padding-left: 6vw;
             position: relative;
             z-index: 20;
-            opacity: 0.2;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            pointer-events: none; /* Evita cliques enquanto invisível */
         }
         .scroll-section.active {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
         }
     </style>
 </head>
 <body>
 
-    <!-- VISUALIZADOR 3D FIXO À DIREITA -->
+    <!-- VISUALIZADOR 3D FIXO À DIREITA COM ZOOM E ROTAÇÃO DINÂMICA -->
     <model-viewer
         id="trava-viewer"
         src="trava-patinete3d.glb"
@@ -83,7 +86,7 @@
         field-of-view="32deg"
         camera-controls
         interaction-prompt="none"
-        shadow-intensity="2.0"
+        shadow-intensity="2.2"
         shadow-softness="1"
         exposure="0.75"
         environment-image="neutral"
@@ -91,11 +94,11 @@
     </model-viewer>
 
 
-    <!-- CONTEÚDO DE ROLAGEM (SECÇÕES DE TEXTO) -->
+    <!-- CONTEÚDO DE ROLAGEM (SECÇÕES DE TEXTO COM TRANSIÇÃO) -->
     <div class="relative w-full pb-32">
 
-        <!-- SECÇÃO 1 -->
-        <section class="scroll-section active" data-orbit="45deg 75deg 105%" data-time="0">
+        <!-- SECÇÃO 1: VISÃO GERAL -->
+        <section class="scroll-section active" data-orbit="45deg 75deg 105%" data-fov="32deg" data-time="0">
             <div class="w-full max-w-lg hud-panel p-8 rounded-3xl">
                 <div class="flex items-center gap-2.5 mb-4">
                     <span class="badge-glow px-3.5 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/30">PASSO 01</span>
@@ -109,30 +112,30 @@
                     Desenvolvido por engenharia reversa diretamente sobre a peça original danificada, garantindo tolerâncias milimétricas de encaixe para o teu patinete.
                 </p>
                 <div class="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase animate-bounce">
-                    <span>↓ Rola para baixo para ver o mecanismo</span>
+                    <span>↓ Rola para baixo para ver o zoom mecânico</span>
                 </div>
             </div>
         </section>
 
-        <!-- SECÇÃO 2 -->
-        <section class="scroll-section" data-orbit="135deg 60deg 95%" data-time="1.0">
+        <!-- SECÇÃO 2: ZOOM DINÂMICO NO MECANISMO -->
+        <section class="scroll-section" data-orbit="135deg 55deg 65%" data-fov="20deg" data-time="1.0">
             <div class="w-full max-w-lg hud-panel p-8 rounded-3xl">
                 <div class="flex items-center gap-2.5 mb-4">
                     <span class="badge-glow px-3.5 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/30">PASSO 02</span>
-                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-blue-950 text-blue-400 text-xs font-bold tracking-widest uppercase border border-blue-500/30">ENCAIXE</span>
+                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-blue-950 text-blue-400 text-xs font-bold tracking-widest uppercase border border-blue-500/30">ZOOM TÉCNICO</span>
                 </div>
                 <h2 class="font-extrabold text-3xl sm:text-4xl uppercase tracking-tighter leading-none mb-3">
                     TRAVAMENTO <br>
                     <span class="text-cyan-gradient">REFORÇADO</span>
                 </h2>
                 <p class="text-neutral-400 text-sm leading-relaxed mb-6">
-                    O sistema de alavanca foi reprojetado com paredes mais espessas nos pontos críticos de tensão, eliminando o problema crónico de quebra da peça original.
+                    Repara nos detalhes: o sistema de alavanca foi reprojetado com paredes mais espessas nos pontos críticos de tensão, eliminando o problema de quebra da original.
                 </p>
             </div>
         </section>
 
-        <!-- SECÇÃO 3 -->
-        <section class="scroll-section" data-orbit="0deg 85deg 110%" data-time="2.0">
+        <!-- SECÇÃO 3: ALTA PERFORMANCE E COMPRA -->
+        <section class="scroll-section" data-orbit="0deg 85deg 110%" data-fov="32deg" data-time="2.0">
             <div class="w-full max-w-lg hud-panel p-8 rounded-3xl">
                 <div class="flex items-center gap-2.5 mb-4">
                     <span class="badge-glow px-3.5 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/30">PASSO 03</span>
@@ -159,31 +162,37 @@
     </div>
 
 
-    <!-- SCRIPT DE INTERAÇÃO DO SCROLL -->
+    <!-- SCRIPT AVANÇADO DE TRANSIÇÃO E ZOOM -->
     <script>
         const viewer = document.getElementById('trava-viewer');
         const sections = document.querySelectorAll('.scroll-section');
 
         window.addEventListener('scroll', () => {
-            let scrollPosition = window.scrollY;
             let windowHeight = window.innerHeight;
 
-            sections.forEach((section) => {
+            sections.format = sections.forEach((section) => {
                 let rect = section.getBoundingClientRect();
                 
-                // Ativa a secção quando ela cruza o centro da tela
+                // Ativa a secção no centro exato da tela
                 if (rect.top <= windowHeight / 2 && rect.bottom >= windowHeight / 2) {
                     sections.forEach(s => s.classList.remove('active'));
                     section.classList.add('active');
 
                     let targetOrbit = section.getAttribute('data-orbit');
+                    let targetFov = section.getAttribute('data-fov');
                     let targetTime = parseFloat(section.getAttribute('data-time'));
 
+                    // Aplica a nova rotação da câmara
                     if (targetOrbit) {
                         viewer.cameraOrbit = targetOrbit;
                     }
 
-                    // Define o tempo da animação do Blender baseada no passo
+                    // Aplica o efeito de Zoom (Field of View menor = mais zoom na peça)
+                    if (targetFov) {
+                        viewer.fieldOfView = targetFov;
+                    }
+
+                    // Define o segundo exato da animação do Blender
                     if (!isNaN(targetTime)) {
                         viewer.currentTime = targetTime;
                         viewer.pause();
