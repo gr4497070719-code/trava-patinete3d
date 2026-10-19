@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-PT" class="scroll-smooth">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +11,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        body {
+        /* Ativa o encaixe automático de scroll na página inteira */
+        html, body {
             margin: 0; padding: 0;
             background: radial-gradient(circle at 30% 50%, #1a2236 0%, #0d111c 50%, #040508 100%);
             color: #ffffff;
             font-family: 'Exo 2', sans-serif;
             overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            height: 100vh;
         }
-        /* O visualizador 3D fica fixo à direita ocupando metade da tela com transição fluida */
+
+        /* O visualizador 3D fica fixo à direita */
         model-viewer {
             position: fixed;
             top: 0;
@@ -30,41 +34,49 @@
             pointer-events: auto;
             transition: camera-orbit 0.8s cubic-bezier(0.25, 1, 0.5, 1), field-of-view 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        /* Painéis maiores, imponentes e com forte presença visual */
+
         .hud-panel {
             background-color: rgba(6, 9, 17, 0.92);
             backdrop-filter: blur(25px);
             border: 1px solid rgba(110, 231, 245, 0.4);
             box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95);
         }
+
         .text-cyan-gradient {
             background: linear-gradient(180deg, #ffffff 0%, #6ee7f5 70%, #22d3ee 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
         .btn-neon-cyan {
             background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%);
             color: #040508;
             box-shadow: 0 8px 30px 2px rgba(34, 211, 238, 0.5);
             transition: all 0.3s ease;
         }
+
         .btn-neon-cyan:hover {
             transform: translateY(-2px) scale(1.03);
             box-shadow: 0 12px 40px 5px rgba(34, 211, 238, 0.7);
         }
+
         .badge-glow {
             box-shadow: 0 0 12px 2px rgba(34, 211, 238, 0.3);
         }
-        
-        /* Comportamento de Roleta: transições suaves baseadas em posição vertical */
+
+        /* Cada secção obriga o scroll a travar exatamente nela (Snap Align) */
         .scroll-section {
             height: 100vh;
+            width: 100vw;
             display: flex;
             align-items: center;
             padding-left: 5vw;
             position: relative;
             z-index: 20;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
             will-change: transform, opacity, filter;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
     </style>
 </head>
@@ -88,8 +100,8 @@
     </model-viewer>
 
 
-    <!-- CONTEÚDO DE ROLAGEM / ROLETA DE TEXTOS -->
-    <div class="relative w-full pb-40">
+    <!-- CONTEÚDO DE ROLAGEM COM SNAP -->
+    <div class="relative w-full">
 
         <!-- SECÇÃO 1: VISÃO GERAL -->
         <section class="scroll-section" data-orbit="45deg 75deg 105%" data-fov="32deg" data-time="0">
@@ -106,7 +118,7 @@
                     Desenvolvido por engenharia reversa diretamente sobre a peça original danificada, garantindo tolerâncias milimétricas de encaixe perfeito para o teu patinete.
                 </p>
                 <div class="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase animate-bounce">
-                    <span>↓ Rola para girar a roleta técnica</span>
+                    <span>↓ Dá um leve scroll para encaixar no próximo passo</span>
                 </div>
             </div>
         </section>
@@ -156,12 +168,12 @@
     </div>
 
 
-    <!-- SCRIPT DA ROLETA DE TEXTOS E DINÂMICA 3D -->
+    <!-- SCRIPT DE SNAP E SINCRONIZAÇÃO 3D -->
     <script>
         const viewer = document.getElementById('trava-viewer');
         const sections = document.querySelectorAll('.scroll-section');
 
-        function updateRouletteScroll() {
+        function updateSnapEffects() {
             let windowHeight = window.innerHeight;
             let centerScreen = windowHeight / 2;
 
@@ -172,20 +184,17 @@
                 let distanceToCenter = sectionCenter - centerScreen;
                 let absDistance = Math.abs(distanceToCenter);
 
-                // Efeito de Roleta: apenas o bloco no centro da tela fica com opacidade máxima (1.0)
-                let progress = 1 - (absDistance / (windowHeight * 0.55));
-                let opacity = Math.max(0.05, Math.min(1, progress));
-
-                // Escala e desfoque imersivo (efeito de profundidade da roleta)
-                let scale = 0.85 + (opacity * 0.15);
-                let blur = (1 - opacity) * 10;
+                let progress = 1 - (absDistance / (windowHeight * 0.5));
+                let opacity = Math.max(0.1, Math.min(1, progress));
+                let scale = 0.9 + (opacity * 0.1);
+                let blur = (1 - opacity) * 8;
 
                 section.style.opacity = opacity;
-                section.style.transform = `scale(${scale}) translateY(${distanceToCenter * 0.1}px)`;
+                section.style.transform = `scale(${scale})`;
                 section.style.filter = `blur(${blur}px)`;
 
-                // Sincroniza a câmara e animação quando a secção atinge o foco central
-                if (absDistance < windowHeight * 0.3) {
+                // Quando a secção encaixa no centro exato, dispara a animação/câmara correspondente
+                if (absDistance < windowHeight * 0.25) {
                     let targetOrbit = section.getAttribute('data-orbit');
                     let targetFov = section.getAttribute('data-fov');
                     let targetTime = parseFloat(section.getAttribute('data-time'));
@@ -204,9 +213,9 @@
             });
         }
 
-        window.addEventListener('scroll', updateRouletteScroll);
-        window.addEventListener('resize', updateRouletteScroll);
-        updateRouletteScroll();
+        window.addEventListener('scroll', updateSnapEffects);
+        window.addEventListener('resize', updateSnapEffects);
+        updateSnapEffects();
     </script>
 
 </body>
