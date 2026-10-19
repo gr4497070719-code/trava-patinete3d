@@ -16,16 +16,18 @@
             background: radial-gradient(circle at 30% 50%, #1a2236 0%, #0d111c 50%, #040508 100%);
             color: #ffffff;
             font-family: 'Exo 2', sans-serif;
+            overflow-x: hidden;
         }
-        /* O model-viewer fica fixo no fundo (background 3D) enquanto fazemos scroll pelas secções de texto */
+        /* O model-viewer fica fixo no lado direito, mas permitindo o clique e scroll */
         model-viewer {
             position: fixed;
             top: 0;
             right: 0;
-            width: 55vw;
+            width: 50vw;
             height: 100vh;
             --poster-color: transparent;
             z-index: 10;
+            pointer-events: auto;
         }
         .hud-panel {
             background-color: rgba(6, 9, 17, 0.85);
@@ -51,19 +53,21 @@
         .badge-glow {
             box-shadow: 0 0 10px 1px rgba(34, 211, 238, 0.2);
         }
-        /* Secções de texto flutuantes alinhadas à esquerda com espaço para rolagem */
+        /* Cada passo de texto ocupa uma tela inteira e ativa com a rolagem */
         .scroll-section {
             height: 100vh;
             display: flex;
             align-items: center;
-            padding-left: 5vw;
+            padding-left: 6vw;
             position: relative;
             z-index: 20;
-            opacity: 0.3;
-            transition: opacity 0.4s ease;
+            opacity: 0.2;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
         }
         .scroll-section.active {
             opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -87,11 +91,11 @@
     </model-viewer>
 
 
-    <!-- CONTEÚDO DE ROLAGEM (CADA SECÇÃO É UM PASSO/TEXTO DIFERENTE) -->
-    <div class="relative w-full">
+    <!-- CONTEÚDO DE ROLAGEM (SECÇÕES DE TEXTO) -->
+    <div class="relative w-full pb-32">
 
-        <!-- SECÇÃO 1: INTRODUÇÃO / VISÃO GERAL -->
-        <section class="scroll-section active" data-orbit="45deg 75deg 105%" data-time="0s">
+        <!-- SECÇÃO 1 -->
+        <section class="scroll-section active" data-orbit="45deg 75deg 105%" data-time="0">
             <div class="w-full max-w-lg hud-panel p-8 rounded-3xl">
                 <div class="flex items-center gap-2.5 mb-4">
                     <span class="badge-glow px-3.5 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/30">PASSO 01</span>
@@ -104,14 +108,14 @@
                 <p class="text-neutral-400 text-sm leading-relaxed mb-6">
                     Desenvolvido por engenharia reversa diretamente sobre a peça original danificada, garantindo tolerâncias milimétricas de encaixe para o teu patinete.
                 </p>
-                <div class="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase">
-                    <span>↓ Rola para ver o mecanismo</span>
+                <div class="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase animate-bounce">
+                    <span>↓ Rola para baixo para ver o mecanismo</span>
                 </div>
             </div>
         </section>
 
-        <!-- SECÇÃO 2: MECANISMO DE TRAVAMENTO -->
-        <section class="scroll-section" data-orbit="135deg 60deg 90%" data-time="1.5s">
+        <!-- SECÇÃO 2 -->
+        <section class="scroll-section" data-orbit="135deg 60deg 95%" data-time="1.0">
             <div class="w-full max-w-lg hud-panel p-8 rounded-3xl">
                 <div class="flex items-center gap-2.5 mb-4">
                     <span class="badge-glow px-3.5 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/30">PASSO 02</span>
@@ -127,8 +131,8 @@
             </div>
         </section>
 
-        <!-- SECÇÃO 3: RESISTÊNCIA E COMPRA -->
-        <section class="scroll-section" data-orbit="0deg 85deg 120%" data-time="3.0s">
+        <!-- SECÇÃO 3 -->
+        <section class="scroll-section" data-orbit="0deg 85deg 110%" data-time="2.0">
             <div class="w-full max-w-lg hud-panel p-8 rounded-3xl">
                 <div class="flex items-center gap-2.5 mb-4">
                     <span class="badge-glow px-3.5 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/30">PASSO 03</span>
@@ -155,37 +159,34 @@
     </div>
 
 
-    <!-- SCRIPT INTELIGENTE PARA CONTROLAR O SCROLL E A ANIMAÇÃO 3D -->
+    <!-- SCRIPT DE INTERAÇÃO DO SCROLL -->
     <script>
         const viewer = document.getElementById('trava-viewer');
         const sections = document.querySelectorAll('.scroll-section');
 
-        // Configura a escuta de rolagem da página
         window.addEventListener('scroll', () => {
             let scrollPosition = window.scrollY;
             let windowHeight = window.innerHeight;
 
-            sections.forEach((section, index) => {
+            sections.forEach((section) => {
                 let rect = section.getBoundingClientRect();
                 
-                // Se a secção estiver visível no centro do ecrã
+                // Ativa a secção quando ela cruza o centro da tela
                 if (rect.top <= windowHeight / 2 && rect.bottom >= windowHeight / 2) {
                     sections.forEach(s => s.classList.remove('active'));
                     section.classList.add('active');
 
-                    // Pega os atributos personalizados de câmara e tempo de animação
                     let targetOrbit = section.getAttribute('data-orbit');
                     let targetTime = parseFloat(section.getAttribute('data-time'));
 
-                    // Aplica o novo ângulo de câmara no model-viewer
                     if (targetOrbit) {
                         viewer.cameraOrbit = targetOrbit;
                     }
 
-                    // Move a animação do Blender para o segundo correspondente
+                    // Define o tempo da animação do Blender baseada no passo
                     if (!isNaN(targetTime)) {
                         viewer.currentTime = targetTime;
-                        viewer.pause(); // Mantém congelado no passo exato da animação
+                        viewer.pause();
                     }
                 }
             });
