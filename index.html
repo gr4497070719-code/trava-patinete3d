@@ -1,32 +1,222 @@
-/* --- CORREÇÃO RESPONSIVA PARA TELEMÓVEL (MOBILE) --- */
-@media (max-width: 768px) {
-    /* Ajusta o container principal para empilhar os elementos de forma limpa */
-    .printec-container, .container, .section-wrapper { /* Mantém compatibilidade com a tua classe principal */
-        flex-direction: column !important;
-        width: 100% !important;
-        padding: 10px !important;
-        gap: 20px !important;
-    }
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trava de Segurança 3D - Printec High-Tech</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Ativa o encaixe automático de scroll na página inteira */
+        html, body {
+            margin: 0; padding: 0;
+            background: radial-gradient(circle at 30% 50%, #1a2236 0%, #0d111c 50%, #040508 100%);
+            color: #ffffff;
+            font-family: 'Exo 2', sans-serif;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            height: 100vh;
+        }
 
-    /* Reduz e fixa a altura do visualizador 3D no telemóvel para não esticar a página */
-    model-viewer, .printec-3d-box, iframe {
-        width: 100% !important;
-        height: 380px !important;
-        min-height: 380px !important;
-    }
+        /* O visualizador 3D fica fixo à direita */
+        model-viewer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50vw;
+            height: 100vh;
+            --poster-color: transparent;
+            z-index: 10;
+            pointer-events: auto;
+            transition: camera-orbit 0.8s cubic-bezier(0.25, 1, 0.5, 1), field-of-view 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
 
-    /* Centraliza e ajusta os textos para leitura confortável em telas pequenas */
-    .printec-text-card, .text-content {
-        width: 100% !important;
-        padding: 20px !important;
-        text-align: center !important;
-    }
+        .hud-panel {
+            background-color: rgba(6, 9, 17, 0.92);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(110, 231, 245, 0.4);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95);
+        }
 
-    h2 {
-        font-size: 1.5rem !important;
-    }
+        .text-cyan-gradient {
+            background: linear-gradient(180deg, #ffffff 0%, #6ee7f5 70%, #22d3ee 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    p {
-        font-size: 0.95rem !important;
-    }
-}
+        .btn-neon-cyan {
+            background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%);
+            color: #040508;
+            box-shadow: 0 8px 30px 2px rgba(34, 211, 238, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .btn-neon-cyan:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 12px 40px 5px rgba(34, 211, 238, 0.7);
+        }
+
+        .badge-glow {
+            box-shadow: 0 0 12px 2px rgba(34, 211, 238, 0.3);
+        }
+
+        /* Cada secção obriga o scroll a travar exatamente nela (Snap Align) */
+        .scroll-section {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            padding-left: 5vw;
+            position: relative;
+            z-index: 20;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            will-change: transform, opacity, filter;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- VISUALIZADOR 3D FIXO À DIREITA -->
+    <model-viewer
+        id="trava-viewer"
+        src="trava-patinete3d.glb"
+        alt="Trava de Patinete 3D High-Tech"
+        camera-target="0m 0.05m 0.03m"
+        camera-orbit="45deg 75deg 105%"
+        field-of-view="32deg"
+        camera-controls
+        interaction-prompt="none"
+        shadow-intensity="2.2"
+        shadow-softness="1"
+        exposure="0.75"
+        environment-image="neutral"
+        ar>
+    </model-viewer>
+
+
+    <!-- CONTEÚDO DE ROLAGEM COM SNAP -->
+    <div class="relative w-full">
+
+        <!-- SECÇÃO 1: VISÃO GERAL -->
+        <section class="scroll-section" data-orbit="45deg 75deg 105%" data-fov="32deg" data-time="0">
+            <div class="w-full max-w-xl hud-panel p-10 rounded-3xl">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/40">PASSO 01</span>
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-emerald-950 text-emerald-400 text-xs font-bold tracking-widest uppercase border border-emerald-500/40">PRINTEC 3D</span>
+                </div>
+                <h1 class="font-extrabold text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4">
+                    DESIGN SOB <br>
+                    <span class="text-cyan-gradient">MEDIDA</span>
+                </h1>
+                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-8">
+                    Desenvolvido por engenharia reversa diretamente sobre a peça original danificada, garantindo tolerâncias milimétricas de encaixe perfeito para o teu patinete.
+                </p>
+                <div class="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase animate-bounce">
+                    <span>↓ Dá um leve scroll para encaixar no próximo passo</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECÇÃO 2: ZOOM TÉCNICO NO MECANISMO -->
+        <section class="scroll-section" data-orbit="135deg 55deg 65%" data-fov="20deg" data-time="1.0">
+            <div class="w-full max-w-xl hud-panel p-10 rounded-3xl">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/40">PASSO 02</span>
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-blue-950 text-blue-400 text-xs font-bold tracking-widest uppercase border border-blue-500/40">ZOOM TÉCNICO</span>
+                </div>
+                <h2 class="font-extrabold text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4">
+                    TRAVAMENTO <br>
+                    <span class="text-cyan-gradient">REFORÇADO</span>
+                </h2>
+                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-8">
+                    Repara nos detalhes: o sistema de alavanca foi reprojetado com paredes mais espessas nos pontos críticos de tensão, eliminando definitivamente o problema crónico de quebra da original.
+                </p>
+            </div>
+        </section>
+
+        <!-- SECÇÃO 3: ALTA PERFORMANCE E COMPRA -->
+        <section class="scroll-section" data-orbit="0deg 85deg 110%" data-fov="32deg" data-time="2.0">
+            <div class="w-full max-w-xl hud-panel p-10 rounded-3xl">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/40">PASSO 03</span>
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-amber-950 text-amber-400 text-xs font-bold tracking-widest uppercase border border-amber-500/40">ALTA PERFORMANCE</span>
+                </div>
+                <h2 class="font-extrabold text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4">
+                    PRONTO PARA <br>
+                    <span class="text-cyan-gradient">INSTALAR</span>
+                </h2>
+                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-8">
+                    Impresso com polímeros técnicos de alta densidade mecânica resistentes a UV e vibração intensa. Substituição rápida, fiável e definitiva.
+                </p>
+                <div>
+                    <a href="#comprar" class="btn-neon-cyan inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-extrabold text-xs tracking-widest uppercase shadow-lg">
+                        ADQUIRIR AGORA
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+
+    <!-- SCRIPT DE SNAP E SINCRONIZAÇÃO 3D -->
+    <script>
+        const viewer = document.getElementById('trava-viewer');
+        const sections = document.querySelectorAll('.scroll-section');
+
+        function updateSnapEffects() {
+            let windowHeight = window.innerHeight;
+            let centerScreen = windowHeight / 2;
+
+            sections.forEach((section) => {
+                let rect = section.getBoundingClientRect();
+                let sectionCenter = rect.top + rect.height / 2;
+                
+                let distanceToCenter = sectionCenter - centerScreen;
+                let absDistance = Math.abs(distanceToCenter);
+
+                let progress = 1 - (absDistance / (windowHeight * 0.5));
+                let opacity = Math.max(0.1, Math.min(1, progress));
+                let scale = 0.9 + (opacity * 0.1);
+                let blur = (1 - opacity) * 8;
+
+                section.style.opacity = opacity;
+                section.style.transform = `scale(${scale})`;
+                section.style.filter = `blur(${blur}px)`;
+
+                // Quando a secção encaixa no centro exato, dispara a animação/câmara correspondente
+                if (absDistance < windowHeight * 0.25) {
+                    let targetOrbit = section.getAttribute('data-orbit');
+                    let targetFov = section.getAttribute('data-fov');
+                    let targetTime = parseFloat(section.getAttribute('data-time'));
+
+                    if (targetOrbit && viewer.cameraOrbit !== targetOrbit) {
+                        viewer.cameraOrbit = targetOrbit;
+                    }
+                    if (targetFov && viewer.fieldOfView !== targetFov) {
+                        viewer.fieldOfView = targetFov;
+                    }
+                    if (!isNaN(targetTime) && Math.abs(viewer.currentTime - targetTime) > 0.1) {
+                        viewer.currentTime = targetTime;
+                        viewer.pause();
+                    }
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateSnapEffects);
+        window.addEventListener('resize', updateSnapEffects);
+        updateSnapEffects();
+    </script>
+
+</body>
+</html>
