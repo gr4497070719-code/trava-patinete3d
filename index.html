@@ -1,124 +1,32 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRINTEC 3D</title>
-    <!-- Script Oficial do Model-Viewer do Google -->
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background-color: #0d111c;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .printec-container {
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-        }
-        .printec-text-card {
-            flex: 1;
-            background: rgba(18, 24, 38, 0.9);
-            border: 1px solid rgba(0, 243, 255, 0.25);
-            border-radius: 16px;
-            padding: 35px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .printec-tag {
-            color: #00f3ff;
-            font-weight: bold;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: block;
-            margin-bottom: 12px;
-        }
-        .printec-text-card h2 {
-            color: #00f3ff;
-            font-size: 2rem;
-            margin-bottom: 15px;
-            line-height: 1.2;
-        }
-        .printec-text-card p {
-            color: #c9d1d9;
-            font-size: 1.05rem;
-            line-height: 1.6;
-        }
-        .printec-3d-box {
-            flex: 1;
-            width: 100%;
-            height: 480px;
-            background: #05070b;
-            border: 1px solid rgba(0, 243, 255, 0.25);
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-        }
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            background-color: transparent;
-        }
-        /* Ajuste para ecrãs de telemóvel (Mobile) */
-        @media (max-width: 768px) {
-            .printec-container {
-                flex-direction: column;
-                gap: 20px;
-            }
-            .printec-text-card {
-                width: 100%;
-                padding: 25px;
-                text-align: center;
-            }
-            .printec-3d-box {
-                width: 100%;
-                height: 360px;
-            }
-            .printec-text-card h2 {
-                font-size: 1.6rem;
-            }
-            .printec-text-card p {
-                font-size: 0.95rem;
-            }
-        }
-    </style>
-</head>
-<body>
+/* --- CORREÇÃO RESPONSIVA PARA TELEMÓVEL (MOBILE) --- */
+@media (max-width: 768px) {
+    /* Ajusta o container principal para empilhar os elementos de forma limpa */
+    .printec-container, .container, .section-wrapper { /* Mantém compatibilidade com a tua classe principal */
+        flex-direction: column !important;
+        width: 100% !important;
+        padding: 10px !important;
+        gap: 20px !important;
+    }
 
-    <div class="printec-container">
-        <!-- Bloco de Texto -->
-        <div class="printec-text-card">
-            <span class="printec-tag">PASSO 01 • PRINTEC 3D</span>
-            <h2>DESIGN SOB MEDIDA</h2>
-            <p>Desenvolvido por engenharia reversa diretamente sobre a peça original danificada, garantindo tolerâncias milimétricas de encaixe perfeito para o teu patinete.</p>
-        </div>
+    /* Reduz e fixa a altura do visualizador 3D no telemóvel para não esticar a página */
+    model-viewer, .printec-3d-box, iframe {
+        width: 100% !important;
+        height: 380px !important;
+        min-height: 380px !important;
+    }
 
-        <!-- Bloco 3D Interativo -->
-        <div class="printec-3d-box">
-            <model-viewer 
-                src="trava-patinete3d.glb" 
-                alt="Trava de Patinete 3D PRINTEC" 
-                auto-rotate 
-                camera-controls 
-                touch-action="pan-y">
-            </model-viewer>
-        </div>
-    </div>
+    /* Centraliza e ajusta os textos para leitura confortável em telas pequenas */
+    .printec-text-card, .text-content {
+        width: 100% !important;
+        padding: 20px !important;
+        text-align: center !important;
+    }
 
-</body>
-</html>
+    h2 {
+        font-size: 1.5rem !important;
+    }
+
+    p {
+        font-size: 0.95rem !important;
+    }
+}
