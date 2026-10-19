@@ -3,70 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trava de Segurança 3D - Printec</title>
+    <title>Trava de Segurança 3D - Printec High-Tech</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Fonte Inter & Orbitron para tipografia premium -->
+    <!-- Fonte Exo 2 para tipografia futurista e técnica -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 70% 50%, #2b2215 0%, #12100d 50%, #080706 100%);
+            /* Fundo gradiente radial escuro e técnico */
+            background: radial-gradient(circle at 75% 50%, #1a2236 0%, #0d111c 50%, #040508 100%);
             color: #ffffff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Exo 2', sans-serif;
             overflow: hidden;
-        }
-        .font-impact {
-            font-family: 'Orbitron', sans-serif;
         }
         model-viewer {
             width: 100%;
             height: 100vh;
             --poster-color: transparent;
         }
-        /* Gradiente dourado no texto */
-        .text-gold-gradient {
-            background: linear-gradient(180deg, #ffffff 0%, #dfb25d 60%, #a87e2a 100%);
+        /* Painel HUD translúcido (Glassmorphism) */
+        .hud-panel {
+            background-color: rgba(6, 9, 17, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(110, 231, 245, 0.2);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
+        }
+        /* Texto com gradiente ciano metálico */
+        .text-cyan-gradient {
+            background: linear-gradient(180deg, #ffffff 0%, #6ee7f5 70%, #22d3ee 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        /* Efeito de brilho no botão */
-        .btn-gold {
-            background: linear-gradient(135deg, #e5b851 0%, #a67b22 100%);
-            box-shadow: 0 10px 25px -5px rgba(229, 184, 81, 0.3);
+        /* Botão CTA com efeito Neon */
+        .btn-neon-cyan {
+            background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%);
+            color: #040508;
+            box-shadow: 0 8px 30px 2px rgba(34, 211, 238, 0.5);
             transition: all 0.3s ease;
         }
-        .btn-gold:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px -5px rgba(229, 184, 81, 0.5);
+        .btn-neon-cyan:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 12px 40px 5px rgba(34, 211, 238, 0.7);
+        }
+        /* Brilho suave nas bordas dos badges */
+        .badge-glow {
+            box-shadow: 0 0 10px 1px rgba(34, 211, 238, 0.2);
         }
     </style>
 </head>
-<body class="relative flex items-center justify-between">
+<body class="relative flex items-center justify-start h-full">
 
-    <!-- Conteúdo em Texto na Esquerda -->
-    <div class="z-10 w-full max-w-xl pl-8 md:pl-16 lg:pl-24 pr-6 pointer-events-none">
+    <!-- Conteúdo em HUD Flutuante na Esquerda -->
+    <div class="z-20 w-full max-w-xl pl-8 md:pl-16 lg:pl-20 pr-6 pointer-events-none">
         
-        <!-- Badge de Disponibilidade -->
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-yellow-950/40 border border-yellow-600/30 text-yellow-500 text-xs font-bold tracking-widest uppercase mb-6 backdrop-blur-md">
-            <span class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span>
-            SUBSTITUIÇÃO DE ALTA PRECISÃO
+        <!-- Badges de Especificação Estilo HUD -->
+        <div class="flex items-center gap-2.5 mb-5">
+            <span class="hud-panel badge-glow px-3.5 py-1.5 rounded-full text-cyan-400 text-xs font-bold tracking-widest uppercase">PRINTEC 3D</span>
+            <span class="hud-panel badge-glow px-3.5 py-1.5 rounded-full text-emerald-400 text-xs font-bold tracking-widest uppercase">Exclusivo</span>
         </div>
 
-        <!-- Título Principal em Caixa Alta -->
-        <h1 class="font-impact text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-none mb-4">
+        <!-- Título Principal Futurista -->
+        <h1 class="font-extrabold text-4xl sm:text-5xl lg:text-6xl uppercase tracking-tighter leading-none mb-3">
             GARANTA A SUA <br>
-            <span class="text-gold-gradient">SEGURANÇA</span>
+            <span class="text-cyan-gradient">SEGURANÇA</span>
         </h1>
 
         <!-- Descrição Estilizada -->
-        <p class="text-neutral-400 text-sm sm:text-base leading-relaxed mb-8 max-w-md font-medium">
+        <p class="text-neutral-400 text-sm sm:text-base leading-relaxed mb-10 max-w-md font-medium">
             Engenharia reversa sob medida para o seu patinete. Peça produzida em impressão 3D de alta densidade mecânica para máxima resistência ao impacto.
         </p>
 
-        <!-- Botão de Ação CTA -->
+        <!-- Botão de Ação CTA Neon -->
         <div class="pointer-events-auto">
-            <a href="#comprar" class="btn-gold inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl
+            <a href="#comprar" class="btn-neon-cyan inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-extrabold text-xs tracking-widest uppercase shadow-lg">
+                ADQUIRIR AGORA
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Pontos Fortes no Rodapé do HUD -->
+        <div class="flex items-center gap-5 pt-8 mt-10 border-t border-cyan-500/10 text-neutral-400 text-xs font-semibold">
+            <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                ENCAIXE PERFEITO
+            </div>
+            <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                RESISTÊNCIA AO IMPACTO
+            </div>
+        </div>
+    </div>
+
+    <!-- Modelo 3D INTEGRADO COMO FUNDO -->
+    <div class="absolute inset-0 w-full h-full z-0 pointer-events-auto">
+        <model-viewer
+            src="trava-patinete3d.glb"
+            alt="Trava de Patinete 3D High-Tech"
+            auto-rotate
+            autoplay
+            animation-name="*"
+            camera-target="0m 0.05m 0.03m"
+            camera-orbit="40deg 70deg 110%"
+            field-of-view="32deg"
+            rotation-per-second="15deg"
+            camera-controls
+            interaction-prompt="none"
+            shadow-intensity="1.5"
+            shadow-softness="0.8"
+            exposure="0.8"
+            environment-image="neutral"
+            ar>
+        </model-viewer>
+    </div>
+
+</body>
+</html>
