@@ -18,7 +18,7 @@
             font-family: 'Exo 2', sans-serif;
             overflow-x: hidden;
         }
-        /* O model-viewer fica fixo à direita com transição suave de câmara */
+        /* O visualizador 3D fica fixo à direita com fluidez total */
         model-viewer {
             position: fixed;
             top: 0;
@@ -28,13 +28,13 @@
             --poster-color: transparent;
             z-index: 10;
             pointer-events: auto;
-            transition: camera-orbit 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: camera-orbit 0.9s cubic-bezier(0.25, 1, 0.5, 1), field-of-view 0.9s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .hud-panel {
-            background-color: rgba(6, 9, 17, 0.88);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(110, 231, 245, 0.3);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.95);
+            background-color: rgba(6, 9, 17, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(110, 231, 245, 0.35);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.95);
         }
         .text-cyan-gradient {
             background: linear-gradient(180deg, #ffffff 0%, #6ee7f5 70%, #22d3ee 100%);
@@ -54,7 +54,8 @@
         .badge-glow {
             box-shadow: 0 0 10px 1px rgba(34, 211, 238, 0.2);
         }
-        /* Efeito profissional de surgimento e sumiço (Fade Out / Fade In) nas janelas de texto */
+        
+        /* Cada secção de texto ocupa um ecrã inteiro. O efeito visual de transparência e dissolução será calculado via JS para extrema suavidade */
         .scroll-section {
             height: 100vh;
             display: flex;
@@ -62,21 +63,13 @@
             padding-left: 6vw;
             position: relative;
             z-index: 20;
-            opacity: 0;
-            transform: translateY(40px) scale(0.95);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-            pointer-events: none; /* Evita cliques enquanto invisível */
-        }
-        .scroll-section.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
+            will-change: transform, opacity, filter;
         }
     </style>
 </head>
 <body>
 
-    <!-- VISUALIZADOR 3D FIXO À DIREITA COM ZOOM E ROTAÇÃO DINÂMICA -->
+    <!-- VISUALIZADOR 3D FIXO À DIREITA COM ZOOM DINÂMICO -->
     <model-viewer
         id="trava-viewer"
         src="trava-patinete3d.glb"
@@ -94,11 +87,11 @@
     </model-viewer>
 
 
-    <!-- CONTEÚDO DE ROLAGEM (SECÇÕES DE TEXTO COM TRANSIÇÃO) -->
-    <div class="relative w-full pb-32">
+    <!-- CONTEÚDO DE ROLAGEM (SECÇÕES DE TEXTO COM DISSOLUÇÃO EM TEMPO REAL) -->
+    <div class="relative w-full pb-40">
 
         <!-- SECÇÃO 1: VISÃO GERAL -->
-        <section class="scroll-section active" data-orbit="45deg 75deg 105%" data-fov="32deg" data-time="0">
+        <section class="scroll-section" data-orbit="45deg 75deg 105%" data-fov="32deg" data-time="0">
             <div class="w-full max-w-lg hud-panel p-8 rounded-3xl">
                 <div class="flex items-center gap-2.5 mb-4">
                     <span class="badge-glow px-3.5 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/30">PASSO 01</span>
@@ -112,7 +105,7 @@
                     Desenvolvido por engenharia reversa diretamente sobre a peça original danificada, garantindo tolerâncias milimétricas de encaixe para o teu patinete.
                 </p>
                 <div class="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase animate-bounce">
-                    <span>↓ Rola para baixo para ver o zoom mecânico</span>
+                    <span>↓ Rola para baixo para activar o zoom cinematográfico</span>
                 </div>
             </div>
         </section>
@@ -162,44 +155,61 @@
     </div>
 
 
-    <!-- SCRIPT AVANÇADO DE TRANSIÇÃO E ZOOM -->
+    <!-- SCRIPT DE DISSOLUÇÃO SUAVE E SINCRONIZAÇÃO 3D -->
     <script>
         const viewer = document.getElementById('trava-viewer');
         const sections = document.querySelectorAll('.scroll-section');
 
-        window.addEventListener('scroll', () => {
+        function updateScrollEffects() {
             let windowHeight = window.innerHeight;
+            let centerScreen = windowHeight / 2;
 
-            sections.format = sections.forEach((section) => {
+            sections.forEach((section) => {
                 let rect = section.getBoundingClientRect();
+                let sectionCenter = rect.top + rect.height / 2;
                 
-                // Ativa a secção no centro exato da tela
-                if (rect.top <= windowHeight / 2 && rect.bottom >= windowHeight / 2) {
-                    sections.forEach(s => s.classList.remove('active'));
-                    section.classList.add('active');
+                // Distância do centro da secção em relação ao centro da tela
+                let distanceToCenter = sectionCenter - centerScreen;
+                let absDistance = Math.abs(distanceToCenter);
 
+                // Cálculo dinâmico da opacidade (quanto mais longe do centro, mais transparente fica até sumir)
+                // O efeito de fade começa a dissolver a 0.7 de distância da tela
+                let progress = 1 - (absDistance / (windowHeight * 0.75));
+                let opacity = Math.max(0, Math.min(1, progress));
+
+                // Efeito visual 3D de profundidade (escala e desfoque leve ao afastar)
+                let scale = 0.85 + (opacity * 0.15);
+                let blur = (1 - opacity) * 12; // Desfoca à medida que desaparece
+
+                section.style.opacity = opacity;
+                section.style.transform = `scale(${scale}) translateY(${distanceToCenter * 0.15}px)`;
+                section.style.filter = `blur(${blur}px)`;
+
+                // Quando a secção atinge o centro da tela, aciona o passo 3D correspondente
+                if (absDistance < windowHeight * 0.35) {
                     let targetOrbit = section.getAttribute('data-orbit');
                     let targetFov = section.getAttribute('data-fov');
                     let targetTime = parseFloat(section.getAttribute('data-time'));
 
-                    // Aplica a nova rotação da câmara
-                    if (targetOrbit) {
+                    if (targetOrbit && viewer.cameraOrbit !== targetOrbit) {
                         viewer.cameraOrbit = targetOrbit;
                     }
-
-                    // Aplica o efeito de Zoom (Field of View menor = mais zoom na peça)
-                    if (targetFov) {
+                    if (targetFov && viewer.fieldOfView !== targetFov) {
                         viewer.fieldOfView = targetFov;
                     }
-
-                    // Define o segundo exato da animação do Blender
-                    if (!isNaN(targetTime)) {
+                    if (!isNaN(targetTime) && Math.abs(viewer.currentTime - targetTime) > 0.1) {
                         viewer.currentTime = targetTime;
                         viewer.pause();
                     }
                 }
             });
-        });
+        }
+
+        window.addEventListener('scroll', updateScrollEffects);
+        window.addEventListener('resize', updateScrollEffects);
+        
+        // Executa uma vez no início para alinhar
+        updateScrollEffects();
     </script>
 
 </body>
