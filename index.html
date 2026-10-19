@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-PT" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,32 +11,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
+        body {
+            margin: 0; padding: 0;
             background: radial-gradient(circle at 30% 50%, #1a2236 0%, #0d111c 50%, #040508 100%);
             color: #ffffff;
             font-family: 'Exo 2', sans-serif;
-            overflow: hidden;
         }
-        /* Layout dividido perfeitamente: Esquerda texto, Direita 3D */
-        .main-container {
-            display: flex;
-            width: 100vw;
-            height: 100vh;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-        }
+        /* O model-viewer fica fixo no fundo (background 3D) enquanto fazemos scroll pelas secções de texto */
         model-viewer {
+            position: fixed;
+            top: 0;
+            right: 0;
             width: 55vw;
             height: 100vh;
             --poster-color: transparent;
+            z-index: 10;
         }
         .hud-panel {
-            background-color: rgba(6, 9, 17, 0.75);
+            background-color: rgba(6, 9, 17, 0.85);
             backdrop-filter: blur(15px);
-            border: 1px solid rgba(110, 231, 245, 0.2);
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(110, 231, 245, 0.25);
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.9);
         }
         .text-cyan-gradient {
             background: linear-gradient(180deg, #ffffff 0%, #6ee7f5 70%, #22d3ee 100%);
@@ -56,72 +51,146 @@
         .badge-glow {
             box-shadow: 0 0 10px 1px rgba(34, 211, 238, 0.2);
         }
+        /* Secções de texto flutuantes alinhadas à esquerda com espaço para rolagem */
+        .scroll-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-left: 5vw;
+            position: relative;
+            z-index: 20;
+            opacity: 0.3;
+            transition: opacity 0.4s ease;
+        }
+        .scroll-section.active {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
-        
-        <!-- Conteúdo de Texto na Esquerda -->
-        <div class="z-20 w-full max-w-xl pl-8 md:pl-16 lg:pl-20 pr-6">
-            
-            <div class="flex items-center gap-2.5 mb-5">
-                <span class="hud-panel badge-glow px-3.5 py-1.5 rounded-full text-cyan-400 text-xs font-bold tracking-widest uppercase">PRINTEC 3D</span>
-                <span class="hud-panel badge-glow px-3.5 py-1.5 rounded-full text-emerald-400 text-xs font-bold tracking-widest uppercase">Exclusivo</span>
-            </div>
+    <!-- VISUALIZADOR 3D FIXO À DIREITA -->
+    <model-viewer
+        id="trava-viewer"
+        src="trava-patinete3d.glb"
+        alt="Trava de Patinete 3D High-Tech"
+        camera-target="0m 0.05m 0.03m"
+        camera-orbit="45deg 75deg 105%"
+        field-of-view="32deg"
+        camera-controls
+        interaction-prompt="none"
+        shadow-intensity="2.0"
+        shadow-softness="1"
+        exposure="0.75"
+        environment-image="neutral"
+        ar>
+    </model-viewer>
 
-            <h1 class="font-extrabold text-4xl sm:text-5xl lg:text-6xl uppercase tracking-tighter leading-none mb-3">
-                GARANTA A SUA <br>
-                <span class="text-cyan-gradient">SEGURANÇA</span>
-            </h1>
 
-            <p class="text-neutral-400 text-sm sm:text-base leading-relaxed mb-10 max-w-md font-medium">
-                Engenharia reversa sob medida para o seu patinete. Peça produzida em impressão 3D de alta densidade mecânica para máxima resistência ao impacto.
-            </p>
+    <!-- CONTEÚDO DE ROLAGEM (CADA SECÇÃO É UM PASSO/TEXTO DIFERENTE) -->
+    <div class="relative w-full">
 
-            <div>
-                <a href="#comprar" class="btn-neon-cyan inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-extrabold text-xs tracking-widest uppercase shadow-lg">
-                    ADQUIRIR AGORA
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                    </svg>
-                </a>
-            </div>
-
-            <div class="flex items-center gap-5 pt-8 mt-10 border-t border-cyan-500/10 text-neutral-400 text-xs font-semibold">
-                <div class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                    ENCAIXE PERFEITO
+        <!-- SECÇÃO 1: INTRODUÇÃO / VISÃO GERAL -->
+        <section class="scroll-section active" data-orbit="45deg 75deg 105%" data-time="0s">
+            <div class="w-full max-w-lg hud-panel p-8 rounded-3xl">
+                <div class="flex items-center gap-2.5 mb-4">
+                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/30">PASSO 01</span>
+                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-emerald-950 text-emerald-400 text-xs font-bold tracking-widest uppercase border border-emerald-500/30">PRINTEC 3D</span>
                 </div>
-                <div class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    RESISTÊNCIA AO IMPACTO
+                <h1 class="font-extrabold text-3xl sm:text-4xl uppercase tracking-tighter leading-none mb-3">
+                    DESIGN SOB <br>
+                    <span class="text-cyan-gradient">MEDIDA</span>
+                </h1>
+                <p class="text-neutral-400 text-sm leading-relaxed mb-6">
+                    Desenvolvido por engenharia reversa diretamente sobre a peça original danificada, garantindo tolerâncias milimétricas de encaixe para o teu patinete.
+                </p>
+                <div class="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase">
+                    <span>↓ Rola para ver o mecanismo</span>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Modelo 3D na Direita (Lado a Lado visível) -->
-        <div class="z-20 w-full h-full flex items-center justify-center">
-            <model-viewer
-                src="trava-patinete3d.glb"
-                alt="Trava de Patinete 3D High-Tech"
-                auto-rotate
-                autoplay
-                animation-name="*"
-                camera-orbit="45deg 75deg 105%"
-                field-of-view="35deg"
-                rotation-per-second="18deg"
-                camera-controls
-                interaction-prompt="none"
-                shadow-intensity="2.0"
-                shadow-softness="1"
-                exposure="0.75"
-                environment-image="neutral"
-                ar>
-            </model-viewer>
-        </div>
+        <!-- SECÇÃO 2: MECANISMO DE TRAVAMENTO -->
+        <section class="scroll-section" data-orbit="135deg 60deg 90%" data-time="1.5s">
+            <div class="w-full max-w-lg hud-panel p-8 rounded-3xl">
+                <div class="flex items-center gap-2.5 mb-4">
+                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/30">PASSO 02</span>
+                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-blue-950 text-blue-400 text-xs font-bold tracking-widest uppercase border border-blue-500/30">ENCAIXE</span>
+                </div>
+                <h2 class="font-extrabold text-3xl sm:text-4xl uppercase tracking-tighter leading-none mb-3">
+                    TRAVAMENTO <br>
+                    <span class="text-cyan-gradient">REFORÇADO</span>
+                </h2>
+                <p class="text-neutral-400 text-sm leading-relaxed mb-6">
+                    O sistema de alavanca foi reprojetado com paredes mais espessas nos pontos críticos de tensão, eliminando o problema crónico de quebra da peça original.
+                </p>
+            </div>
+        </section>
+
+        <!-- SECÇÃO 3: RESISTÊNCIA E COMPRA -->
+        <section class="scroll-section" data-orbit="0deg 85deg 120%" data-time="3.0s">
+            <div class="w-full max-w-lg hud-panel p-8 rounded-3xl">
+                <div class="flex items-center gap-2.5 mb-4">
+                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/30">PASSO 03</span>
+                    <span class="badge-glow px-3.5 py-1.5 rounded-full bg-amber-950 text-amber-400 text-xs font-bold tracking-widest uppercase border border-amber-500/30">ALTA PERFORMANCE</span>
+                </div>
+                <h2 class="font-extrabold text-3xl sm:text-4xl uppercase tracking-tighter leading-none mb-3">
+                    PRONTO PARA <br>
+                    <span class="text-cyan-gradient">INSTALAR</span>
+                </h2>
+                <p class="text-neutral-400 text-sm leading-relaxed mb-6">
+                    Impresso com polímeros técnicos de alta densidade mecânica resistentes a UV e vibração intensa. Substituição rápida e definitiva.
+                </p>
+                <div>
+                    <a href="#comprar" class="btn-neon-cyan inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-extrabold text-xs tracking-widest uppercase shadow-lg">
+                        ADQUIRIR AGORA
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
 
     </div>
+
+
+    <!-- SCRIPT INTELIGENTE PARA CONTROLAR O SCROLL E A ANIMAÇÃO 3D -->
+    <script>
+        const viewer = document.getElementById('trava-viewer');
+        const sections = document.querySelectorAll('.scroll-section');
+
+        // Configura a escuta de rolagem da página
+        window.addEventListener('scroll', () => {
+            let scrollPosition = window.scrollY;
+            let windowHeight = window.innerHeight;
+
+            sections.forEach((section, index) => {
+                let rect = section.getBoundingClientRect();
+                
+                // Se a secção estiver visível no centro do ecrã
+                if (rect.top <= windowHeight / 2 && rect.bottom >= windowHeight / 2) {
+                    sections.forEach(s => s.classList.remove('active'));
+                    section.classList.add('active');
+
+                    // Pega os atributos personalizados de câmara e tempo de animação
+                    let targetOrbit = section.getAttribute('data-orbit');
+                    let targetTime = parseFloat(section.getAttribute('data-time'));
+
+                    // Aplica o novo ângulo de câmara no model-viewer
+                    if (targetOrbit) {
+                        viewer.cameraOrbit = targetOrbit;
+                    }
+
+                    // Move a animação do Blender para o segundo correspondente
+                    if (!isNaN(targetTime)) {
+                        viewer.currentTime = targetTime;
+                        viewer.pause(); // Mantém congelado no passo exato da animação
+                    }
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
