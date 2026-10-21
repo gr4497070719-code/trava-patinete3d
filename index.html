@@ -18,7 +18,7 @@
             font-family: 'Exo 2', sans-serif;
             overflow-x: hidden;
         }
-        /* O visualizador 3D fica fixo à direita ocupando metade da tela com transição fluida */
+        /* O visualizador 3D fica fixo à direita ocupando metade da tela no PC */
         model-viewer {
             position: fixed;
             top: 0;
@@ -66,11 +66,35 @@
             z-index: 20;
             will-change: transform, opacity, filter;
         }
+
+        /* --- CORREÇÃO DE LAYOUT PARA TELEMÓVEL (MOBILE) --- */
+        @media (max-width: 768px) {
+            model-viewer {
+                width: 100vw;
+                height: 45vh;
+                top: 0;
+                right: 0;
+                left: 0;
+            }
+            .scroll-section {
+                padding-left: 1rem;
+                padding-right: 1rem;
+                justify-content: center;
+                padding-top: 35vh; /* Dá espaço para o 3D no topo */
+            }
+            .hud-panel {
+                padding: 1.5rem !important;
+                border-radius: 1.25rem !important;
+            }
+            h1, h2 {
+                font-size: 2rem !important;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- VISUALIZADOR 3D FIXO À DIREITA -->
+    <!-- VISUALIZADOR 3D FIXO -->
     <model-viewer
         id="trava-viewer"
         src="trava-patinete3d.glb"
@@ -86,7 +110,6 @@
         environment-image="neutral"
         ar>
     </model-viewer>
-
 
     <!-- CONTEÚDO DE ROLAGEM / ROLETA DE TEXTOS -->
     <div class="relative w-full pb-40">
@@ -128,7 +151,7 @@
             </div>
         </section>
 
-        <!-- SECÇÃO 3: ALTA PERFORMANCE E COMPRA -->
+        <!-- SECÇÃO 3: ALTA PERFORMANCE E BOTÕES DE CONVERSÃO -->
         <section class="scroll-section" data-orbit="0deg 85deg 110%" data-fov="32deg" data-time="2.0">
             <div class="w-full max-w-xl hud-panel p-10 rounded-3xl">
                 <div class="flex items-center gap-3 mb-5">
@@ -139,22 +162,26 @@
                     PRONTO PARA <br>
                     <span class="text-cyan-gradient">INSTALAR</span>
                 </h2>
-                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-8">
+                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-6">
                     Impresso com polímeros técnicos de alta densidade mecânica resistentes a UV e vibração intensa. Substituição rápida, fiável e definitiva.
                 </p>
-                <div>
-                    <a href="#comprar" class="btn-neon-cyan inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-extrabold text-xs tracking-widest uppercase shadow-lg">
-                        ADQUIRIR AGORA
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                        </svg>
+                
+                <!-- BOTÕES DIRETO DE COMPRA E ATENDIMENTO -->
+                <div class="flex flex-col sm:flex-row gap-3 mt-4">
+                    <!-- Botão Mercado Livre -->
+                    <a href="https://produto.mercadolivre.com.br" target="_blank" class="flex-1 bg-yellow-400 hover:bg-yellow-300 color-black text-gray-900 font-extrabold text-xs py-4 px-6 rounded-2xl tracking-widest uppercase text-center shadow-lg transition-transform hover:scale-105 flex items-center justify-center gap-2">
+                        🛒 Mercado Livre
+                    </a>
+
+                    <!-- Botão WhatsApp -->
+                    <a href="https://wa.me/5545999999999?text=Olá!%20Vi%20a%20trava%203D%20da%20Printec%20e%20quero%20comprar!" target="_blank" class="flex-1 bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold text-xs py-4 px-6 rounded-2xl tracking-widest uppercase text-center shadow-lg transition-transform hover:scale-105 flex items-center justify-center gap-2">
+                        💬 WhatsApp Direto
                     </a>
                 </div>
             </div>
         </section>
 
     </div>
-
 
     <!-- SCRIPT DA ROLETA DE TEXTOS E DINÂMICA 3D -->
     <script>
