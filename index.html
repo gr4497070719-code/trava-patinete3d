@@ -1,338 +1,213 @@
 <!DOCTYPE html>
 <html lang="pt-PT" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trava de Segurança 3D - Printec High-Tech</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            margin: 0; padding: 0;
-            background: radial-gradient(circle at 30% 50%, #1a2236 0%, #0d111c 50%, #040508 100%);
-            color: #ffffff;
-            font-family: 'Exo 2', sans-serif;
-            overflow-x: hidden;
-        }
-        /* Visualizador 3D Fixo no PC */
-        model-viewer {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 50vw;
-            height: 100vh;
-            --poster-color: transparent;
-            z-index: 10;
-            pointer-events: auto;
-            transition: camera-orbit 0.8s cubic-bezier(0.25, 1, 0.5, 1), field-of-view 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        /* Painéis HUD */
-        .hud-panel {
-            background-color: rgba(6, 9, 17, 0.92);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(110, 231, 245, 0.4);
-            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95);
-        }
-        .text-cyan-gradient {
-            background: linear-gradient(180deg, #ffffff 0%, #6ee7f5 70%, #22d3ee 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .btn-neon-cyan {
-            background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%);
-            color: #040508;
-            box-shadow: 0 8px 30px 2px rgba(34, 211, 238, 0.5);
-            transition: all 0.3s ease;
-        }
-        .btn-neon-cyan:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 12px 40px 5px rgba(34, 211, 238, 0.7);
-        }
-        .badge-glow {
-            box-shadow: 0 0 12px 2px rgba(34, 211, 238, 0.3);
-        }
-        
-        /* Roleta de Textos */
-        .scroll-section {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            padding-left: 5vw;
-            position: relative;
-            z-index: 20;
-            will-change: transform, opacity, filter;
-        }
-
-        /* CARD GALERIA COM ANIMAÇÃO CYBER */
-        .gallery-card {
-            position: relative;
-            border-radius: 1rem;
-            overflow: hidden;
-            border: 1px solid rgba(34, 211, 238, 0.2);
-            background: rgba(13, 17, 28, 0.8);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-        }
-        .gallery-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: rgba(34, 211, 238, 0.8);
-            box-shadow: 0 15px 35px -10px rgba(34, 211, 238, 0.4);
-        }
-        .gallery-card img {
-            transition: transform 0.6s ease;
-        }
-        .gallery-card:hover img {
-            transform: scale(1.1);
-        }
-        .gallery-overlay {
-            background: linear-gradient(0deg, rgba(6, 9, 17, 0.95) 0%, rgba(6, 9, 17, 0.2) 60%, transparent 100%);
-            opacity: 0.9;
-            transition: opacity 0.3s ease;
-        }
-
-        /* Ajustes Mobile */
-        @media (max-width: 768px) {
-            model-viewer {
-                width: 100vw;
-                height: 40vh;
-                top: 0;
-                right: 0;
-                left: 0;
-            }
-            .scroll-section {
-                padding-left: 1rem;
-                padding-right: 1rem;
-                justify-content: center;
-                padding-top: 32vh;
-            }
-            .hud-panel {
-                padding: 1.5rem !important;
-                border-radius: 1.25rem !important;
-            }
-            h1, h2 {
-                font-size: 1.8rem !important;
-            }
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trava de Segurança 3D - Printec High-Tech</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            margin: 0; padding: 0;
+            background: radial-gradient(circle at 30% 50%, #1a2236 0%, #0d111c 50%, #040508 100%);
+            color: #ffffff;
+            font-family: 'Exo 2', sans-serif;
+            overflow-x: hidden;
+        }
+        /* O visualizador 3D fica fixo à direita ocupando metade da tela com transição fluida */
+        model-viewer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50vw;
+            height: 100vh;
+            --poster-color: transparent;
+            z-index: 10;
+            pointer-events: auto;
+            transition: camera-orbit 0.8s cubic-bezier(0.25, 1, 0.5, 1), field-of-view 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        /* Painéis maiores, imponentes e com forte presença visual */
+        .hud-panel {
+            background-color: rgba(6, 9, 17, 0.92);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(110, 231, 245, 0.4);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95);
+        }
+        .text-cyan-gradient {
+            background: linear-gradient(180deg, #ffffff 0%, #6ee7f5 70%, #22d3ee 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-neon-cyan {
+            background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%);
+            color: #040508;
+            box-shadow: 0 8px 30px 2px rgba(34, 211, 238, 0.5);
+            transition: all 0.3s ease;
+        }
+        .btn-neon-cyan:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 12px 40px 5px rgba(34, 211, 238, 0.7);
+        }
+        .badge-glow {
+            box-shadow: 0 0 12px 2px rgba(34, 211, 238, 0.3);
+        }
+        
+        /* Comportamento de Roleta: transições suaves baseadas em posição vertical */
+        .scroll-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-left: 5vw;
+            position: relative;
+            z-index: 20;
+            will-change: transform, opacity, filter;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- VISUALIZADOR 3D FIXO -->
-    <model-viewer
-        id="trava-viewer"
-        src="trava-patinete3d.glb"
-        alt="Trava de Patinete 3D High-Tech"
-        camera-target="0m 0.05m 0.03m"
-        camera-orbit="45deg 75deg 105%"
-        field-of-view="32deg"
-        camera-controls
-        interaction-prompt="none"
-        shadow-intensity="2.2"
-        shadow-softness="1"
-        exposure="0.75"
-        environment-image="neutral"
-        ar>
-    </model-viewer>
+    <!-- VISUALIZADOR 3D FIXO À DIREITA -->
+    <model-viewer
+        id="trava-viewer"
+        src="trava-patinete3d.glb"
+        alt="Trava de Patinete 3D High-Tech"
+        camera-target="0m 0.05m 0.03m"
+        camera-orbit="45deg 75deg 105%"
+        field-of-view="32deg"
+        camera-controls
+        interaction-prompt="none"
+        shadow-intensity="2.2"
+        shadow-softness="1"
+        exposure="0.75"
+        environment-image="neutral"
+        ar>
+    </model-viewer>
 
-    <!-- CONTEÚDO DE ROLAGEM / ROLETA DE TEXTOS -->
-    <div class="relative w-full">
 
-        <!-- SECÇÃO 1: VISÃO GERAL -->
-        <section class="scroll-section" data-orbit="45deg 75deg 105%" data-fov="32deg" data-time="0">
-            <div class="w-full max-w-xl hud-panel p-10 rounded-3xl">
-                <div class="flex items-center gap-3 mb-5">
-                    <span class="badge-glow px-4 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/40">PASSO 01</span>
-                    <span class="badge-glow px-4 py-1.5 rounded-full bg-emerald-950 text-emerald-400 text-xs font-bold tracking-widest uppercase border border-emerald-500/40">PRINTEC 3D</span>
-                </div>
-                <h1 class="font-extrabold text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4">
-                    DESIGN SOB <br>
-                    <span class="text-cyan-gradient">MEDIDA</span>
-                </h1>
-                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-8">
-                    Desenvolvido por engenharia reversa diretamente sobre a peça original danificada, garantindo tolerâncias milimétricas de encaixe perfeito para o teu patinete.
-                </p>
-                <div class="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase animate-bounce">
-                    <span>↓ Rola para girar a roleta técnica</span>
-                </div>
-            </div>
-        </section>
+    <!-- CONTEÚDO DE ROLAGEM / ROLETA DE TEXTOS -->
+    <div class="relative w-full pb-40">
 
-        <!-- SECÇÃO 2: ZOOM TÉCNICO NO MECANISMO -->
-        <section class="scroll-section" data-orbit="135deg 55deg 65%" data-fov="20deg" data-time="1.0">
-            <div class="w-full max-w-xl hud-panel p-10 rounded-3xl">
-                <div class="flex items-center gap-3 mb-5">
-                    <span class="badge-glow px-4 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/40">PASSO 02</span>
-                    <span class="badge-glow px-4 py-1.5 rounded-full bg-blue-950 text-blue-400 text-xs font-bold tracking-widest uppercase border border-blue-500/40">ZOOM TÉCNICO</span>
-                </div>
-                <h2 class="font-extrabold text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4">
-                    TRAVAMENTO <br>
-                    <span class="text-cyan-gradient">REFORÇADO</span>
-                </h2>
-                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-8">
-                    Repara nos detalhes: o sistema de alavanca foi reprojetado com paredes mais espessas nos pontos críticos de tensão, eliminando definitivamente o problema crónico de quebra da original.
-                </p>
-            </div>
-        </section>
+        <!-- SECÇÃO 1: VISÃO GERAL -->
+        <section class="scroll-section" data-orbit="45deg 75deg 105%" data-fov="32deg" data-time="0">
+            <div class="w-full max-w-xl hud-panel p-10 rounded-3xl">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/40">PASSO 01</span>
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-emerald-950 text-emerald-400 text-xs font-bold tracking-widest uppercase border border-emerald-500/40">PRINTEC 3D</span>
+                </div>
+                <h1 class="font-extrabold text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4">
+                    DESIGN SOB <br>
+                    <span class="text-cyan-gradient">MEDIDA</span>
+                </h1>
+                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-8">
+                    Desenvolvido por engenharia reversa diretamente sobre a peça original danificada, garantindo tolerâncias milimétricas de encaixe perfeito para o teu patinete.
+                </p>
+                <div class="flex items-center gap-2 text-cyan-400 text-xs font-bold tracking-wider uppercase animate-bounce">
+                    <span>↓ Rola para girar a roleta técnica</span>
+                </div>
+            </div>
+        </section>
 
-        <!-- SECÇÃO 3: ALTA PERFORMANCE E COMPRA -->
-        <section class="scroll-section" data-orbit="0deg 85deg 110%" data-fov="32deg" data-time="2.0">
-            <div class="w-full max-w-xl hud-panel p-10 rounded-3xl">
-                <div class="flex items-center gap-3 mb-5">
-                    <span class="badge-glow px-4 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/40">PASSO 03</span>
-                    <span class="badge-glow px-4 py-1.5 rounded-full bg-amber-950 text-amber-400 text-xs font-bold tracking-widest uppercase border border-amber-500/40">ALTA PERFORMANCE</span>
-                </div>
-                <h2 class="font-extrabold text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4">
-                    PRONTO PARA <br>
-                    <span class="text-cyan-gradient">INSTALAR</span>
-                </h2>
-                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-6">
-                    Impresso com polímeros técnicos de alta densidade mecânica resistentes a UV e vibração intensa. Substituição rápida, fiável e definitiva.
-                </p>
-                
-                <!-- BOTÕES DIRETO DE COMPRA E ATENDIMENTO -->
-                <div class="flex flex-col sm:flex-row gap-3 mt-4">
-                    <a href="https://produto.mercadolivre.com.br" target="_blank" class="flex-1 bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-extrabold text-xs py-4 px-6 rounded-2xl tracking-widest uppercase text-center shadow-lg transition-transform hover:scale-105 flex items-center justify-center gap-2">
-                        🛒 Mercado Livre
-                    </a>
+        <!-- SECÇÃO 2: ZOOM TÉCNICO NO MECANISMO -->
+        <section class="scroll-section" data-orbit="135deg 55deg 65%" data-fov="20deg" data-time="1.0">
+            <div class="w-full max-w-xl hud-panel p-10 rounded-3xl">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/40">PASSO 02</span>
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-blue-950 text-blue-400 text-xs font-bold tracking-widest uppercase border border-blue-500/40">ZOOM TÉCNICO</span>
+                </div>
+                <h2 class="font-extrabold text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4">
+                    TRAVAMENTO <br>
+                    <span class="text-cyan-gradient">REFORÇADO</span>
+                </h2>
+                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-8">
+                    Repara nos detalhes: o sistema de alavanca foi reprojetado com paredes mais espessas nos pontos críticos de tensão, eliminando definitivamente o problema crónico de quebra da original.
+                </p>
+            </div>
+        </section>
 
-                    <a href="https://wa.me/5545999999999?text=Olá!%20Vi%20a%20trava%203D%20da%20Printec%20e%20quero%20comprar!" target="_blank" class="flex-1 bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold text-xs py-4 px-6 rounded-2xl tracking-widest uppercase text-center shadow-lg transition-transform hover:scale-105 flex items-center justify-center gap-2">
-                        💬 WhatsApp Direto
-                    </a>
-                </div>
-            </div>
-        </section>
+        <!-- SECÇÃO 3: ALTA PERFORMANCE E COMPRA -->
+        <section class="scroll-section" data-orbit="0deg 85deg 110%" data-fov="32deg" data-time="2.0">
+            <div class="w-full max-w-xl hud-panel p-10 rounded-3xl">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/40">PASSO 03</span>
+                    <span class="badge-glow px-4 py-1.5 rounded-full bg-amber-950 text-amber-400 text-xs font-bold tracking-widest uppercase border border-amber-500/40">ALTA PERFORMANCE</span>
+                </div>
+                <h2 class="font-extrabold text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4">
+                    PRONTO PARA <br>
+                    <span class="text-cyan-gradient">INSTALAR</span>
+                </h2>
+                <p class="text-neutral-300 text-base sm:text-lg leading-relaxed mb-8">
+                    Impresso com polímeros técnicos de alta densidade mecânica resistentes a UV e vibração intensa. Substituição rápida, fiável e definitiva.
+                </p>
+                <div>
+                    <a href="#comprar" class="btn-neon-cyan inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-extrabold text-xs tracking-widest uppercase shadow-lg">
+                        ADQUIRIR AGORA
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
 
-    </div>
+    </div>
 
-    <!-- NOVA SECÇÃO: GALERIA HIGH-TECH DE FOTOS REAIS -->
-    <section class="relative z-30 px-6 py-20 max-w-6xl mx-auto">
-        <div class="text-center mb-12">
-            <span class="badge-glow px-4 py-1.5 rounded-full bg-cyan-950 text-cyan-400 text-xs font-bold tracking-widest uppercase border border-cyan-500/40">ENGENTARIA REAL</span>
-            <h2 class="font-extrabold text-3xl sm:text-5xl uppercase tracking-tighter mt-3 mb-4">
-                GALERIA <span class="text-cyan-gradient">PRINTEC</span>
-            </h2>
-            <p class="text-neutral-400 max-w-lg mx-auto text-sm sm:text-base">
-                Confira o acabamento de alta resolução e o teste de encaixe real nas nossas fotos de laboratório.
-            </p>
-        </div>
 
-        <!-- GRID DA GALERIA -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            <!-- Card 1: Peça Impressa -->
-            <div class="gallery-card group h-72" onclick="openLightbox('foto1.jpg', 'Acabamento da Peça em Polímero Técnico')">
-                <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80" alt="Peça 3D PRINTEC" class="w-full h-full object-cover">
-                <div class="gallery-overlay absolute inset-0 p-6 flex flex-col justify-end">
-                    <span class="text-cyan-400 text-xs font-bold uppercase tracking-wider mb-1">Acabamento</span>
-                    <h3 class="text-white font-bold text-lg leading-snug">Impressão Aditiva de Alta Densidade</h3>
-                    <p class="text-gray-300 text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Clica para expandir 🔍</p>
-                </div>
-            </div>
+    <!-- SCRIPT DA ROLETA DE TEXTOS E DINÂMICA 3D -->
+    <script>
+        const viewer = document.getElementById('trava-viewer');
+        const sections = document.querySelectorAll('.scroll-section');
 
-            <!-- Card 2: Encaixe no Patinete -->
-            <div class="gallery-card group h-72" onclick="openLightbox('foto2.jpg', 'Instalação Plug & Play no Patinete')">
-                <img src="https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=600&q=80" alt="Encaixe do Patinete" class="w-full h-full object-cover">
-                <div class="gallery-overlay absolute inset-0 p-6 flex flex-col justify-end">
-                    <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider mb-1">Teste Prático</span>
-                    <h3 class="text-white font-bold text-lg leading-snug">Encaixe Sob Medida no Guiador</h3>
-                    <p class="text-gray-300 text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Clica para expandir 🔍</p>
-                </div>
-            </div>
+        function updateRouletteScroll() {
+            let windowHeight = window.innerHeight;
+            let centerScreen = windowHeight / 2;
 
-            <!-- Card 3: Teste de Resistência -->
-            <div class="gallery-card group h-72" onclick="openLightbox('foto3.jpg', 'Estrutura Interna Reforçada')">
-                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80" alt="Teste Mecânico" class="w-full h-full object-cover">
-                <div class="gallery-overlay absolute inset-0 p-6 flex flex-col justify-end">
-                    <span class="text-amber-400 text-xs font-bold uppercase tracking-wider mb-1">Engenharia Reversa</span>
-                    <h3 class="text-white font-bold text-lg leading-snug">Reforço de Parede Anti-Quebra</h3>
-                    <p class="text-gray-300 text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Clica para expandir 🔍</p>
-                </div>
-            </div>
+            sections.forEach((section) => {
+                let rect = section.getBoundingClientRect();
+                let sectionCenter = rect.top + rect.height / 2;
+                
+                let distanceToCenter = sectionCenter - centerScreen;
+                let absDistance = Math.abs(distanceToCenter);
 
-        </div>
-    </section>
+                // Efeito de Roleta: apenas o bloco no centro da tela fica com opacidade máxima (1.0)
+                let progress = 1 - (absDistance / (windowHeight * 0.55));
+                let opacity = Math.max(0.05, Math.min(1, progress));
 
-    <!-- LIGHTBOX / MODAL DE ZOOM (Abre ao clicar na foto) -->
-    <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4" onclick="closeLightbox()">
-        <div class="relative max-w-4xl w-full hud-panel p-4 rounded-2xl overflow-hidden border border-cyan-500/50" onclick="event.stopPropagation()">
-            <button onclick="closeLightbox()" class="absolute top-4 right-4 text-cyan-400 hover:text-white font-bold text-2xl z-10 bg-cyan-950/80 w-10 h-10 rounded-full flex items-center justify-center border border-cyan-500/30">✕</button>
-            <img id="lightbox-img" src="" alt="Zoom Photo" class="w-full max-h-[75vh] object-contain rounded-xl">
-            <p id="lightbox-caption" class="text-center text-cyan-300 font-bold mt-3 text-sm uppercase tracking-wider"></p>
-        </div>
-    </div>
+                // Escala e desfoque imersivo (efeito de profundidade da roleta)
+                let scale = 0.85 + (opacity * 0.15);
+                let blur = (1 - opacity) * 10;
 
-    <!-- SCRIPT DA ROLETA E DA GALERIA -->
-    <script>
-        // Lógica da Roleta 3D
-        const viewer = document.getElementById('trava-viewer');
-        const sections = document.querySelectorAll('.scroll-section');
+                section.style.opacity = opacity;
+                section.style.transform = `scale(${scale}) translateY(${distanceToCenter * 0.1}px)`;
+                section.style.filter = `blur(${blur}px)`;
 
-        function updateRouletteScroll() {
-            let windowHeight = window.innerHeight;
-            let centerScreen = windowHeight / 2;
+                // Sincroniza a câmara e animação quando a secção atinge o foco central
+                if (absDistance < windowHeight * 0.3) {
+                    let targetOrbit = section.getAttribute('data-orbit');
+                    let targetFov = section.getAttribute('data-fov');
+                    let targetTime = parseFloat(section.getAttribute('data-time'));
 
-            sections.forEach((section) => {
-                let rect = section.getBoundingClientRect();
-                let sectionCenter = rect.top + rect.height / 2;
-                
-                let distanceToCenter = sectionCenter - centerScreen;
-                let absDistance = Math.abs(distanceToCenter);
+                    if (targetOrbit && viewer.cameraOrbit !== targetOrbit) {
+                        viewer.cameraOrbit = targetOrbit;
+                    }
+                    if (targetFov && viewer.fieldOfView !== targetFov) {
+                        viewer.fieldOfView = targetFov;
+                    }
+                    if (!isNaN(targetTime) && Math.abs(viewer.currentTime - targetTime) > 0.1) {
+                        viewer.currentTime = targetTime;
+                        viewer.pause();
+                    }
+                }
+            });
+        }
 
-                let progress = 1 - (absDistance / (windowHeight * 0.55));
-                let opacity = Math.max(0.05, Math.min(1, progress));
-
-                let scale = 0.85 + (opacity * 0.15);
-                let blur = (1 - opacity) * 10;
-
-                section.style.opacity = opacity;
-                section.style.transform = `scale(${scale}) translateY(${distanceToCenter * 0.1}px)`;
-                section.style.filter = `blur(${blur}px)`;
-
-                if (absDistance < windowHeight * 0.3) {
-                    let targetOrbit = section.getAttribute('data-orbit');
-                    let targetFov = section.getAttribute('data-fov');
-                    let targetTime = parseFloat(section.getAttribute('data-time'));
-
-                    if (targetOrbit && viewer.cameraOrbit !== targetOrbit) {
-                        viewer.cameraOrbit = targetOrbit;
-                    }
-                    if (targetFov && viewer.fieldOfView !== targetFov) {
-                        viewer.fieldOfView = targetFov;
-                    }
-                    if (!isNaN(targetTime) && Math.abs(viewer.currentTime - targetTime) > 0.1) {
-                        viewer.currentTime = targetTime;
-                        viewer.pause();
-                    }
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateRouletteScroll);
-        window.addEventListener('resize', updateRouletteScroll);
-        updateRouletteScroll();
-
-        // Lógica do Lightbox (Zoom na Foto)
-        function openLightbox(imgSrc, caption) {
-            const modal = document.getElementById('lightbox-modal');
-            const img = document.getElementById('lightbox-img');
-            const cap = document.getElementById('lightbox-caption');
-
-            img.src = imgSrc;
-            cap.innerText = caption;
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closeLightbox() {
-            const modal = document.getElementById('lightbox-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-    </script>
+        window.addEventListener('scroll', updateRouletteScroll);
+        window.addEventListener('resize', updateRouletteScroll);
+        updateRouletteScroll();
+    </script>
 
 </body>
 </html>
